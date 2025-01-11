@@ -21,11 +21,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {
       sequelize,
       modelName: "Permission",
+      tableName: "permissions",
     },
   );
   return Permission;

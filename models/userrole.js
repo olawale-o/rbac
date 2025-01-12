@@ -19,8 +19,28 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      userId: { type: DataTypes.INTEGER, allowNull: false, field: "user_id" },
-      roleId: { type: DataTypes.INTEGER, allowNull: false, field: "role_id" },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: "user_id",
+        references: {
+          model: {
+            tableName: "users",
+          },
+          key: "id",
+        },
+      },
+      roleId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: "role_id",
+        references: {
+          model: {
+            tableName: "roles",
+          },
+          key: "id",
+        },
+      },
     },
     {
       sequelize,

@@ -23,11 +23,24 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: "user_id",
+        references: {
+          model: {
+            tableName: "users",
+          },
+          key: "id",
+        },
       },
       groupId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: "group_id",
+
+        references: {
+          model: {
+            tableName: "groups",
+          },
+          key: "id",
+        },
       },
     },
     {

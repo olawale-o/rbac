@@ -9,6 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Group.belongsToMany(models.User, { through: models.UserGroup });
+      Group.belongsToMany(models.Permission, {
+        through: {
+          model: models.RoleGroupPermission,
+          unique: false,
+          scope: {
+            permittableType: "group",
+          },
+        },
+        foreignKey: "permittable_id",
+        constraints: false,
+      });
     }
   }
   Group.init(

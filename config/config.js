@@ -1,20 +1,20 @@
 module.exports = {
   development: {
-    username: "root",
+    username: "postgres",
     password: null,
     database: "rbac_development",
     host: "127.0.0.1",
     dialect: "postgres",
   },
   test: {
-    username: "root",
+    username: "postgres",
     password: null,
     database: "rbac_test",
     host: "127.0.0.1",
     dialect: "postgres",
   },
   production: {
-    username: "root",
+    username: "postgres",
     password: null,
     database: "rbac_production",
     host: "127.0.0.1",

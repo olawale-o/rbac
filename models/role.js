@@ -14,16 +14,9 @@ module.exports = (sequelize, DataTypes) => {
         through: models.UserRole,
         foreignKey: "role_id",
       });
-      Role.belongsToMany(models.Permission, {
-        through: {
-          model: models.RoleGroupPermission,
-          unique: false,
-          scope: {
-            permittableType: "role",
-          },
-        },
-        foreignKey: "permittable_id",
-        constraints: false,
+      Role.hasOne(models.UserRole, {
+        as: "user_roles",
+        foreignKey: "role_id",
       });
     }
   }

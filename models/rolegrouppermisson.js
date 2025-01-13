@@ -52,23 +52,5 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  RoleGroupPermission.addHook("afterFind", (findResult) => {
-    if (!Array.isArray(findResult)) findResult = [findResult];
-    for (const instance of findResult) {
-      if (instance.permittableType === "role" && instance.role !== undefined) {
-        instance.permittable = instance.role;
-      } else if (
-        instance.permittableType === "group" &&
-        instance.group !== undefined
-      ) {
-        instance.permittable = instance.group;
-      }
-      // To prevent mistakes:
-      delete instance.role;
-      delete instance.dataValues.role;
-      delete instance.group;
-      delete instance.dataValues.group;
-    }
-  });
   return RoleGroupPermission;
 };

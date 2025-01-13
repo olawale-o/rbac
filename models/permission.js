@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // define association here
-      Permission.belongsToMany(models.Role, {
+      Permission.belongsToMany(models.Group, {
         through: {
           model: models.RoleGroupPermission,
           unique: false,
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "permission_id",
         constraints: false,
       });
-      Permission.belongsToMany(models.Group, {
+      Permission.belongsToMany(models.UserRole, {
         through: {
           model: models.RoleGroupPermission,
           unique: false,

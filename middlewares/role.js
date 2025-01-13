@@ -4,7 +4,7 @@ const checkRole = (roleName) => {
     const userRole = user ? user.roles : "anonymous";
     const inRole = userRole.find((role) => role.name === roleName);
     if (inRole) {
-      req.permissions = inRole.Permissions;
+      req.permissions = inRole.user_roles.Permissions;
       return next();
     } else {
       return res

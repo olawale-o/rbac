@@ -16,9 +16,17 @@ module.exports = {
             through: { attributes: [] },
             include: [
               {
-                model: db.Permission,
-                attributes: ["id", "type"],
-                through: { attributes: [] },
+                model: db.UserRole,
+                as: "user_roles",
+                attributes: ["id"],
+
+                include: [
+                  {
+                    model: db.Permission,
+                    attributes: ["id", "type"],
+                    through: { attributes: [] },
+                  },
+                ],
               },
             ],
           },

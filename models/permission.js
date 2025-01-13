@@ -31,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
     async getPermittables(options) {
       const roles = await this.getRoles(options);
       const groups = await this.getGroups(options);
-      // Concat images and videos in a single array of taggables
       return roles.concat(groups);
     }
   }

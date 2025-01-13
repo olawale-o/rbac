@@ -10,14 +10,14 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // define association here
-      RoleGroupPermission.belongsTo(models.Role, {
-        foreignKey: "permittable_id",
-        constraints: false,
-      });
-      RoleGroupPermission.belongsTo(models.Group, {
-        foreignKey: "permittable_id",
-        constraints: false,
-      });
+      // RoleGroupPermission.belongsTo(models.Role, {
+      //   foreignKey: "permittable_id",
+      //   constraints: false,
+      // });
+      // RoleGroupPermission.belongsTo(models.Group, {
+      //   foreignKey: "permittable_id",
+      //   constraints: false,
+      // });
     }
   }
   RoleGroupPermission.init(
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       permittableType: {
         type: DataTypes.STRING,
         allowNull: false,
-        type: "permittable_type",
+        field: "permittable_type",
       },
     },
     {

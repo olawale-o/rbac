@@ -39,6 +39,9 @@
 #### Seed Database
 `npm run db:seed:all`
 
+### Start app
+`npm run dev`
+
 
 ## Features
 - Authentication

@@ -1,10 +1,17 @@
 const db = require("../../models");
 const { comparePassword } = require("../../utils/bcrypt");
+const { signToken } = require("../../utils/jwt");
+
+const ACCESS_TOKEN_EXPIRATION = 60 * 60 * 24;
+
+const generateJWTToken = (data, key, expires) => signToken(data, key, expires);
+
+const generateAccessToken = (data) =>
+  generateJWTToken(data, "ACCESS_TOKEN", ACCESS_TOKEN_EXPIRATION);
 
 module.exports = {
   login: async (req, res, next) => {
     try {
-      const permissions = [];
       const { email, password } = req.body;
 
       const user = await db.User.findOne({
@@ -65,6 +72,9 @@ module.exports = {
       };
 
       res.cookie("user", data);
+
+      const accessToken = generateAccessToken({ id: user.id });
+      res.cookie("accessToken", accessToken, { httpOnly: true, secure: true });
 
       return res.status(200).json({
         data,

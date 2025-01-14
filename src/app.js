@@ -2,6 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("../middlewares/error");
 const { checkPermission } = require("../middlewares/permission");
+const { checkAuth } = require("../middlewares/auth");
 
 const app = express();
 
@@ -10,6 +11,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/api/v1/auth", require("../api/auth"));
+
+app.use(checkAuth);
 app.use("/api/v1/users", require("../api/users"));
 app.use(
   "/api/v1/engineering",

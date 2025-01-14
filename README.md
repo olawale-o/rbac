@@ -21,9 +21,9 @@
 
 
 ### User Authentication
-<p> **POST** `/auth/login` - To login random user. The user must have been created by user in **admin** group with the required permissions</p>
-<p> **Payload** </p>
-<p>Permission </p>
+**POST** `/auth/login` - To login random user. The user must have been created by user in **admin** group with the required permissions
+**Payload**
+Permission
     ```
     { "email": "john@example.com", "password": "password"}
     ```

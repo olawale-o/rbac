@@ -43,21 +43,29 @@
 ## Features
 - Authentication
 - Authorization
-- User creation by admin group with permission
-- User role assignment
-- User role revocation
-- User permission assignment
-- User permission revocation
-- A user can belong many group
-- A user many roles assigned to it
-- A user's **role** can have many **permissions** assigned to it
+- User in **admin** group with required permission **can_create_users**
+- Assignment **role** to **user** can only be done by user in **admin** group with required permission **can_update_users**
+- Revocation of user's role can only be done by user in **admin** group with required permission **can_update_users**
+- User **permission** assignment can only be done by user in **admin** group with required permission **can_update_users**
+- User permission revocation can only be done by user in **admin** group with required permission **can_update_users**
+- A user can belong to many groups
+- A user can many roles assigned to it.
+- A user's **role** can have many **permissions** assigned to it.
+
+## Improvements
+- A **role** can have defaults **permissions** at creation.
+- There should be relationship between groups and role. This ensures certain roles can only belong to certain group and vice-versa.
+- Provision can be made for **attribute based access control (ABAC)**
+
 
 ## Endpoints
 <p> BASE URL: **http://localhost:{port}/api/v1**</p>
-<p>**port** will be the port your app is listening from</p>
+<p>Replace **port** with your own port</p>
 
 
-### User Authentication
+### Routes
+
+#### User Authentication
 **POST** `/auth/login` - To login random user. The user must have been created by user in **admin** group with the required permissions.<br />
 **Payload**<br />
     ```
@@ -65,6 +73,7 @@
     ```
 <br />
 
+#### User Creation
 **POST** `/users` - To create a user. Only user in **admin** group with **can_create_users** permission can user this endpoint <br />
 **Payload** <br />
 ```
@@ -79,6 +88,7 @@
 
 <br />
 
+#### User Role Assignment
 
 **PUT** `/users/:id/assign_role` - To assign role to user. Only user in **admin** group with **can_update_users** permission can use this endpoint <br />
 **Payload** <br />
@@ -89,6 +99,7 @@
 **Permission can_updated_users**
 <br />
 
+#### User Role Revocation
 **PUT** `/users/:id/revoke_role` - To revoke a user's role. Only user in **admin** group with **can_update_users** permission can use this endpoint <br />
 **Payload** <br />
 ```
@@ -97,6 +108,8 @@
 Permission **can_update_users**
 
 <br />
+
+#### User Permission Assignment
 
 **PUT** `/users/:id/assign_permission` - To grant permission to user. Only user in **admin** group with **can_update_users** permission can use this endpoint <br />
 **Payload** <br />
@@ -107,6 +120,9 @@ Permission **can_update_users**
 
 <br />
 
+
+#### User Permission Revocation
+
 **PUT** `/users/:id/revoke_permission` - To revoke user's permission. Only user in **admin** group with **can_update_users** permission can use this endpoint <br />
 **Payload** <br />
 ```
@@ -115,6 +131,8 @@ Permission **can_update_users**
 Permission **can_update_users**
 
 <br />
+
+#### Route for users in engineering
 
 **GET** `/engineering` - Can only be accessed by users in engineering group <br />
 Permission: **can_view_engineering** <br />

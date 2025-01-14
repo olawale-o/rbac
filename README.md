@@ -52,48 +52,59 @@
 **Permission can_updated_users**
 <br />
 
-- **PUT** `/users/:id/revoke_role` - To revoke a user's role. Only user in **admin** group with **can_update_users** permission can use this endpoint
-- **Payload**
+**PUT** `/users/:id/revoke_role` - To revoke a user's role. Only user in **admin** group with **can_update_users** permission can use this endpoint <br />
+**Payload** <br />
 ```
 {"roles": [{"id": 3}]}
 ```
-- Permission **can_update_users**
+Permission **can_update_users**
 
-- **PUT** `/users/:id/assign_permission` - To grant permission to user. Only user in **admin** group with **can_update_users** permission can use this endpoint
-- **Payload**
+<br />
+
+**PUT** `/users/:id/assign_permission` - To grant permission to user. Only user in **admin** group with **can_update_users** permission can use this endpoint <br />
+**Payload** <br />
 ```
 {"roles": [{"id": 3}]}
 ```
-- Permission **can_update_users**
+Permission **can_update_users**
 
+<br />
 
-- **PUT** `/users/:id/revoke_permission` - To revoke user's permission. Only user in **admin** group with **can_update_users** permission can use this endpoint
-- **Payload**
+**PUT** `/users/:id/revoke_permission` - To revoke user's permission. Only user in **admin** group with **can_update_users** permission can use this endpoint <br />
+**Payload** <br />
 ```
 {"permissions": [{"id": 10, "roleId": 7}, {"id": 17, "roleId": 6}]}
 ```
-- Permission **can_update_users**
+Permission **can_update_users**
 
-- **GET** `/engineering` - Can only be accessed by users in engineering group
-- Permission: **can_view_engineering**
+<br />
 
-- **POST** `/engineering/backend`
-- Permission: **can_create_backend**
+**GET** `/engineering` - Can only be accessed by users in engineering group <br />
+Permission: **can_view_engineering** <br />
 
-- **PUT** `/engineering/backend`
-- Permission: **can_update_backend**
+<br />
 
-- **DELETE** `/engineering/backend`
-- Permission: **can_delete_backend**
+**POST** `/engineering/backend` <br />
+Permission: **can_create_backend** <br />
 
-- **POST** `/engineering/frontend`
-- Permission: **can_create_frontend**
+<br />
 
-- **PUT** `/engineering/frontend`
-- Permission: **can_update_frontend**
+**PUT** `/engineering/backend` <br />
+Permission: **can_update_backend** <br />
 
-- **DELETE** `/engineering/frontend`
-- Permission: **can_delete_frontend**
+<br />
+
+**DELETE** `/engineering/backend` <br />
+Permission: **can_delete_backend** <br />
+
+**POST** `/engineering/frontend` <br />
+Permission: **can_create_frontend** <br />
+
+**PUT** `/engineering/frontend` <br />
+Permission: **can_update_frontend** <br />
+
+**DELETE** `/engineering/frontend` <br />
+Permission: **can_delete_frontend** <br />
 
 
 

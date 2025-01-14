@@ -8,17 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
 
-    static associate(models) {
-      // define association here
-      // RoleGroupPermission.belongsTo(models.Role, {
-      //   foreignKey: "permittable_id",
-      //   constraints: false,
-      // });
-      // RoleGroupPermission.belongsTo(models.Group, {
-      //   foreignKey: "permittable_id",
-      //   constraints: false,
-      // });
-    }
+    static associate(models) {}
   }
   RoleGroupPermission.init(
     {

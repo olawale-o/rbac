@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "role_id",
       });
       Role.hasOne(models.UserRole, {
-        as: "user_roles",
+        as: "role_permission",
         foreignKey: "role_id",
       });
     }

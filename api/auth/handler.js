@@ -17,7 +17,7 @@ module.exports = {
             include: [
               {
                 model: db.UserRole,
-                as: "user_roles",
+                as: "role_permission",
                 attributes: ["id"],
 
                 include: [

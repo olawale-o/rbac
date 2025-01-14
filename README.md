@@ -49,7 +49,7 @@
 - User **permission** assignment can only be done by user in **admin** group with required permission **can_update_users**
 - User permission revocation can only be done by user in **admin** group with required permission **can_update_users**
 - A user can belong to many groups
-- A user can many roles assigned to it.
+- A user can have many roles assigned to it without permissions.
 - A user's **role** can have many **permissions** assigned to it.
 
 ## Improvements

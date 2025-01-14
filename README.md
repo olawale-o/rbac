@@ -7,14 +7,17 @@
 - Authentication
 - Authorization
 - User creation by admin group with permission
-- Assignment of role to a user
-- Revocation of user role
-- Permission assignment to user
-- Permission revocation of user
+- User role assignment
+- User role revocation
+- User permission assignment
+- User permission revocation
+- A user can belong many group
+- A user many roles assigned to it
+- A user's **role** can have many **permissions** assigned to it
 
 ## Endpoints
-- BASE URL: **http://localhost:{port}/api/v1**
-- **port** will be the port your app is listening from
+<p> BASE URL: **http://localhost:{port}/api/v1**</p>
+<p>**port** will be the port your app is listening from</p>
 
 
 - **POST** `/auth/login` - To login random user. The user must have been created by user in **admin** group with the required permissions
@@ -63,6 +66,28 @@
 {"permissions": [{"id": 10, "roleId": 7}, {"id": 17, "roleId": 6}]}
 ```
 - Permission **can_update_users**
+
+- **GET** `/engineering` - Can only be accessed by users in engineering group
+- Permission: **can_view_engineering**
+
+- **POST** `/engineering/backend`
+- Permission: **can_create_backend**
+
+- **PUT** `/engineering/backend`
+- Permission: **can_update_backend**
+
+- **DELETE** `/engineering/backend`
+- Permission: **can_delete_backend**
+
+- **POST** `/engineering/frontend`
+- Permission: **can_create_frontend**
+
+- **PUT** `/engineering/frontend`
+- Permission: **can_update_frontend**
+
+- **DELETE** `/engineering/frontend`
+- Permission: **can_delete_frontend**
+
 
 
 ## ER Diagram

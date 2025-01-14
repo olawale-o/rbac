@@ -20,11 +20,13 @@
 <p>**port** will be the port your app is listening from</p>
 
 
-- **POST** `/auth/login` - To login random user. The user must have been created by user in **admin** group with the required permissions
-- **Payload**
-```
-{ "email": "john@example.com", "password": "password"}
-```
+### User Authentication
+<p> **POST** `/auth/login` - To login random user. The user must have been created by user in **admin** group with the required permissions</p>
+<p> **Payload** </p>
+<p>Permission </p>
+    ```
+    { "email": "john@example.com", "password": "password"}
+    ```
 
 - **POST** `/users` - To create a user. Only user in **admin** group with **can_create_users** permission can user this endpoint
 - **Payload**

@@ -3,6 +3,43 @@
 > Description
 
 
+## ER Diagram
+![schema](https://github.com/olawale-o/rbac/blob/main/assets/rbac.png?raw=true")
+
+## Built with
+- NodeJS
+- Sequelize
+- PostgreSQL
+
+## Getting Started
+
+### Prerequisites
+
+- NodeJS
+- PostgreSQL
+
+### To get a local copy of this repository kindly follow the steps below.
+
+- Kindly make sure you have **nodejs**, and **PostgreSQL** installed
+- Scroll to top of this current repository
+- Click on the `Code` button with background color green on the right end corner
+- Click on the copy to clipboard icon on the extreme right of the dropdown to copy the repository link
+- In your local PC, open your terminal or command prompt in the folder you would like to clone this repository into
+- Type `git clone (copied link)` on the currently opened terminal or command prompt
+- Remember to change `(copied link)` to `git@github.com:olawale-o/rbac.git` which is the name of the repository
+
+### Database Setup
+
+#### Create Database
+`npm run db:create`
+
+#### Database Migrations
+`npm run db:migrate`
+
+#### Seed Database
+`npm run db:seed:all`
+
+
 ## Features
 - Authentication
 - Authorization
@@ -105,41 +142,3 @@ Permission: **can_update_frontend** <br />
 
 **DELETE** `/engineering/frontend` <br />
 Permission: **can_delete_frontend** <br />
-
-
-
-## ER Diagram
-![schema](https://github.com/olawale-o/rbac/blob/main/assets/rbac.png?raw=true")
-
-## Built with
-- NodeJS
-- Sequelize
-- PostgreSQL
-
-## Getting Started
-
-### Prerequisites
-
-- NodeJS
-- PostgreSQL
-
-### To get a local copy of this repository kindly follow the steps below.
-
-- Kindly make sure you have **nodejs**, and **PostgreSQL** installed
-- Scroll to top of this current repository
-- Click on the `Code` button with background color green on the right end corner
-- Click on the copy to clipboard icon on the extreme right of the dropdown to copy the repository link
-- In your local PC, open your terminal or command prompt in the folder you would like to clone this repository into
-- Type `git clone (copied link)` on the currently opened terminal or command prompt
-- Remember to change `(copied link)` to `git@github.com:olawale-o/rbac.git` which is the name of the repository
-
-### Database Setup
-
-#### Create Database
-`npm run db:create`
-
-#### Database Migrations
-`npm run db:migrate`
-
-#### Seed Database
-`npm run db:seed:all`

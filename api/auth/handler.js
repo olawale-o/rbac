@@ -4,6 +4,7 @@ const { comparePassword } = require("../../utils/bcrypt");
 module.exports = {
   login: async (req, res, next) => {
     try {
+      const permissions = [];
       const { email, password } = req.body;
 
       const user = await db.User.findOne({

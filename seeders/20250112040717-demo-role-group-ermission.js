@@ -148,6 +148,20 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          permission_id: 5,
+          permittable_id: 1,
+          permittable_type: "role",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          permission_id: 9,
+          permittable_id: 1,
+          permittable_type: "role",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
           permission_id: 2,
           permittable_id: 1,
           permittable_type: "role",

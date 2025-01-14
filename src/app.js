@@ -1,7 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("../middlewares/error");
-const { checkGroup } = require("../middlewares/group");
+const { checkPermission } = require("../middlewares/permission");
 
 const app = express();
 
@@ -13,11 +13,15 @@ app.use("/api/v1/auth", require("../api/auth"));
 app.use("/api/v1/users", require("../api/users"));
 app.use(
   "/api/v1/engineering",
-  checkGroup("Engineering"),
+  checkPermission("can_view_engineering"),
   require("../api/engineering"),
 );
-app.use("/api/v1/sales", checkGroup("Sales"), require("../api/sales"));
-app.use("/api/v1/admin", checkGroup("Admin"), require("../api/admin"));
+app.use(
+  "/api/v1/sales",
+  checkPermission("can_view_sales"),
+  require("../api/sales"),
+);
+app.use("/api/v1/admin", require("../api/admin"));
 app.use(errorHandler);
 
 module.exports = app;

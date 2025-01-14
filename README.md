@@ -38,7 +38,9 @@
     "groups": [{"id": 3}]}
 ```
 <br />
-Permission **can_create_users** <br />
+Permission **can_create_users**
+
+<br />
 
 
 - **PUT** `/users/:id/assign_role` - To assign role to user. Only user in **admin** group with **can_update_users** permission can use this endpoint

@@ -1,10 +1,12 @@
 const db = require("../../models");
-const { hashPassword } = require("../../utils/bcrypt");
+const { Op } = require("sequelize");
+
 module.exports = {
   revokePermission: async (req, res, next) => {
     try {
       const id = req.params.id;
       const { permissions } = req.body;
+      const data = [];
       if (!Array.isArray(permissions) || permissions.length < 1) {
         throw new Error("Kindly assign permissions to the user");
       }
@@ -20,13 +22,28 @@ module.exports = {
       }
 
       permissions.forEach((permission) => {
-        const permissionExist = db.RoleGroupPermission.findByPk(permission);
+        const permissionExist = db.Permission.findByPk(permission.id);
         if (!permissionExist) {
           throw new Error("Kindly provide valid permission id");
         }
+        const userRoleExist = db.UserRole.findByPk(permission.roleId);
+        if (!userRoleExist) {
+          throw new Error("Kindly provide valid user role id");
+        }
+
+        data.push({
+          permissionId: permission.id,
+          permittableId: permission.roleId,
+        });
       });
 
-      await db.RoleGroupPermission.destroy({ where: { id: permissions } });
+      await db.RoleGroupPermission.destroy({
+        where: {
+          [Op.or]: data,
+        },
+      });
+
+      console.log(d);
 
       res.status(200).json({ message: "Permission revoked for user" });
     } catch (e) {

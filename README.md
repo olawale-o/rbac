@@ -23,13 +23,13 @@
 ### User Authentication
 **POST** `/auth/login` - To login random user. The user must have been created by user in **admin** group with the required permissions.<br />
 **Payload**<br />
-Permission <br />
     ```
     { "email": "john@example.com", "password": "password"}
     ```
+<br />
 
-- **POST** `/users` - To create a user. Only user in **admin** group with **can_create_users** permission can user this endpoint
-- **Payload**
+**POST** `/users` - To create a user. Only user in **admin** group with **can_create_users** permission can user this endpoint <br />
+**Payload** <br />
 ```
 {"fullName": "folly",
     "password": "password",
@@ -37,7 +37,8 @@ Permission <br />
     "roles": [{"id": 4}, {"id": 3}],
     "groups": [{"id": 3}]}
 ```
-- Permission **can_create_users**
+<br />
+Permission **can_create_users** <br />
 
 
 - **PUT** `/users/:id/assign_role` - To assign role to user. Only user in **admin** group with **can_update_users** permission can use this endpoint

@@ -38,17 +38,19 @@
     "groups": [{"id": 3}]}
 ```
 <br />
-Permission **can_create_users**
+**Permission can_create_users**
 
 <br />
 
 
-- **PUT** `/users/:id/assign_role` - To assign role to user. Only user in **admin** group with **can_update_users** permission can use this endpoint
-- **Payload**
+**PUT** `/users/:id/assign_role` - To assign role to user. Only user in **admin** group with **can_update_users** permission can use this endpoint <br />
+**Payload** <br />
 ```
 {"roles": [{"id": 3}]}
 ```
-- Permission **can_updated_users**
+<br />
+**Permission can_updated_users**
+<br />
 
 - **PUT** `/users/:id/revoke_role` - To revoke a user's role. Only user in **admin** group with **can_update_users** permission can use this endpoint
 - **Payload**

@@ -58,7 +58,11 @@ module.exports = {
 
       return res.status(200).json({ messsage: "Role assigned" });
     } catch (e) {
-      next(e);
+      if (e.name === "SequelizeUniqueConstraintError") {
+        next(new Error("A user cannot be assigned the same role"));
+      } else {
+        next(e);
+      }
     }
   },
 };

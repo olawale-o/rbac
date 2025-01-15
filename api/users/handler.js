@@ -50,7 +50,11 @@ module.exports = {
 
       return res.status(200).json({ message: "User created" });
     } catch (e) {
-      next(e);
+      if (e.name === "SequelizeUniqueConstraintError") {
+        next(new Error("This email already exist"));
+      } else {
+        next(e);
+      }
     }
   },
 };

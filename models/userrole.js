@@ -63,6 +63,13 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "UserRole",
       tableName: "users_roles",
+
+      indexes: [
+        {
+          unique: true,
+          fields: ["role_id", "user_id"],
+        },
+      ],
     },
   );
   return UserRole;

@@ -47,6 +47,12 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "UserGroup",
       tableName: "users_groups",
+      indexes: [
+        {
+          unique: true,
+          fields: ["user_id", "group_id"],
+        },
+      ],
     },
   );
   return UserGroup;

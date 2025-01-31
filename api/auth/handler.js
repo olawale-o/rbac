@@ -25,7 +25,7 @@ module.exports = {
             include: [
               {
                 model: db.UserRole,
-                as: "role_permission",
+                as: "user_role_permission",
                 attributes: ["id"],
 
                 include: [
@@ -45,6 +45,7 @@ module.exports = {
             through: { attributes: [] },
             include: [
               {
+                as: "user_group_permission",
                 model: db.Permission,
                 attributes: ["id", "type"],
                 through: { attributes: [] },

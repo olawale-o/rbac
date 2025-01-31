@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "group_id",
       });
       Group.belongsToMany(models.Permission, {
+        as: "user_group_permission",
         through: {
           model: models.RoleGroupPermission,
           unique: false,
@@ -25,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "permittable_id",
         constraints: false,
       });
+      // Group.hasOne(models.UserGroup, {
+      //   as: "user_group_permission",
+      //   foreignKey: "group_id",
+      // });
     }
   }
   Group.init(

@@ -17,17 +17,10 @@ router.post(
 );
 
 router.put(
-  "/:id/revoke_role",
+  "/:id/roles",
   checkRole("HR Executive"),
   checkPermission("can_update_users"),
-  roleHandler.revokeRole,
-);
-
-router.put(
-  "/:id/assign_role",
-  checkRole("HR Executive"),
-  checkPermission("can_update_users"),
-  roleHandler.assignRole,
+  roleHandler.update,
 );
 
 router.put(

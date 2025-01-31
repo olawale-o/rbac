@@ -1,41 +1,11 @@
 const db = require("../../models");
+const { Op } = require("sequelize");
 module.exports = {
-  revokeRole: async (req, res, next) => {
+  update: async (req, res, next) => {
     try {
       const id = req.params.id;
-      const { roleId } = req.body;
-
-      const isFound = await db.User.findByPk(parseInt(id));
-
-      if (!isFound) {
-        throw new Error("Kindly provide valid user id");
-      }
-
-      const roleExist = await db.Role.findByPk(parseInt(roleId));
-
-      if (!roleExist) {
-        throw new Error("Kindly provide valid user role id");
-      }
-
-      await db.UserRole.destroy({
-        where: {
-          roleId,
-          userId: parseInt(id, 10),
-        },
-      });
-
-      return res.status(200).json({ messsage: "Role revoked" });
-    } catch (e) {
-      next(e);
-    }
-  },
-  assignRole: async (req, res, next) => {
-    try {
-      const id = req.params.id;
-      const { roles } = req.body;
-
+      const { roles, revoke } = req.body;
       const data = [];
-
       if (!Array.isArray(roles) || roles.length < 1) {
         throw new Error("Kindly provide arrays of roles");
       }
@@ -56,15 +26,22 @@ module.exports = {
         throw new Error("Kindly provide a valid role id");
       }
 
+      if (revoke === true) {
+        await db.UserRole.destroy({
+          where: {
+            userId: parseInt(id, 10),
+            roleId: {
+              [Op.in]: rolesIdArray,
+            },
+          },
+        });
+        return res.status(200).json({ messsage: "Role revoked" });
+      }
       const saved = await db.UserRole.bulkCreate(data);
 
       return res.status(200).json({ messsage: "Role assigned" });
     } catch (e) {
-      if (e.name === "SequelizeUniqueConstraintError") {
-        next(new Error("A user cannot be assigned the same role"));
-      } else {
-        next(e);
-      }
+      next(e);
     }
   },
 };

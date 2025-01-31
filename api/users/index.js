@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const handler = require("./handler");
-const roleHandler = require("../roles/handler");
+const userRoleHandler = require("./roles/handler");
 const permissionHandler = require("../permissions/handler");
 const { checkRole } = require("../../middlewares/role");
 const { checkPermission } = require("../../middlewares/permission");
@@ -20,7 +20,7 @@ router.put(
   "/:id/roles",
   checkRole("HR Executive"),
   checkPermission("can_update_users"),
-  roleHandler.update,
+  userRoleHandler.update,
 );
 
 router.put(

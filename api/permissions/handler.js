@@ -11,10 +11,6 @@ module.exports = {
         throw new Error("Kindly assign permissions to the user");
       }
 
-      if (!Array.isArray(permissions) || permissions.length < 1) {
-        throw new Error("Kindly assign permissions to the user");
-      }
-
       const isFound = await db.User.findByPk(parseInt(id));
 
       if (!isFound) {
@@ -42,8 +38,6 @@ module.exports = {
           [Op.or]: data,
         },
       });
-
-      console.log(d);
 
       res.status(200).json({ message: "Permission revoked for user" });
     } catch (e) {

@@ -1,6 +1,6 @@
 const groupAccess = (groupPermissionType, groups) => {
   const inGroup = groups.find((group) => {
-    return group.Permissions.find(
+    return group.user_group_permission.find(
       (permission) => permission.type === groupPermissionType,
     );
   });
@@ -20,7 +20,7 @@ const checkPermission = (type) => {
     const userRoles = user ? user.roles : [];
 
     isPermissionFound = userRoles.find((role) => {
-      return role.role_permission.Permissions.find(
+      return role.user_role_permission.Permissions.find(
         (permission) => permission.type === type,
       );
     });

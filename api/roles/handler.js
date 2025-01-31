@@ -45,14 +45,16 @@ module.exports = {
         throw new Error("Kindly provide valid user id");
       }
 
-      roles.forEach((role) => {
-        const roleExist = db.Role.findByPk(parseInt(role.id));
-        if (!roleExist) {
-          throw new Error("Kindly provide a valid role id");
-        }
-
+      const rolesIdArray = roles.map((role) => {
         data.push({ roleId: role.id, userId: parseInt(id, 10) });
+        return parseInt(role.id);
       });
+
+      const rolesFound = await db.Role.findAll({ where: { id: rolesIdArray } });
+
+      if (rolesFound.length !== roles.length) {
+        throw new Error("Kindly provide a valid role id");
+      }
 
       const saved = await db.UserRole.bulkCreate(data);
 

@@ -2,11 +2,12 @@ const db = require("../../models");
 const { Op } = require("sequelize");
 
 module.exports = {
-  revokePermission: async (req, res, next) => {
+  update: async (req, res, next) => {
     try {
       const id = req.params.id;
-      const { permissions } = req.body;
+      const { permissions, revoke } = req.body;
       const data = [];
+      let permissionsIdArray = [];
       if (!Array.isArray(permissions) || permissions.length < 1) {
         throw new Error("Kindly assign permissions to the user");
       }
@@ -17,68 +18,46 @@ module.exports = {
         throw new Error("Kindly provide valid user id");
       }
 
-      permissions.forEach((permission) => {
-        const permissionExist = db.Permission.findByPk(permission.id);
-        if (!permissionExist) {
-          throw new Error("Kindly provide valid permission id");
-        }
-        const userRoleExist = db.UserRole.findByPk(permission.roleId);
-        if (!userRoleExist) {
-          throw new Error("Kindly provide valid user role id");
-        }
+      const userRolesIdArray = permissions.map((permission) => {
+        permissionsIdArray = permission.id.map((p) => {
+          data.push({
+            permissionId: p,
+            permittableId: permission.roleId,
+            permittableType: "role",
+          });
 
-        data.push({
-          permissionId: permission.id,
-          permittableId: permission.roleId,
+          return parseInt(p);
         });
+
+        return parseInt(permission.roleId);
       });
 
-      await db.RoleGroupPermission.destroy({
-        where: {
-          [Op.or]: data,
-        },
+      const permissionFound = await db.Permission.findAll({
+        where: { id: permissionsIdArray },
+      });
+      const userRoleFound = await db.UserRole.findAll({
+        where: { id: userRolesIdArray },
       });
 
-      res.status(200).json({ message: "Permission revoked for user" });
-    } catch (e) {
-      next(e);
-    }
-  },
-  assignPermission: async (req, res, next) => {
-    try {
-      const id = req.params.id;
-      const { permissions } = req.body;
-      const data = [];
-      if (!Array.isArray(permissions) || permissions.length < 1) {
-        throw new Error("Kindly assign permissions to the user");
+      if (permissionFound.length !== permissionsIdArray.length) {
+        throw new Error("Kindly provide a valid permission id");
+      }
+      if (userRoleFound.length !== permissions.length) {
+        throw new Error("Kindly provide a valid role id");
       }
 
-      const isFound = await db.User.findByPk(parseInt(id));
-
-      if (!isFound) {
-        throw new Error("Kindly provide valid user id");
-      }
-
-      permissions.forEach((permission) => {
-        const permissionExist = db.Permission.findByPk(permission.id);
-        if (!permissionExist) {
-          throw new Error("Kindly provide valid permission id");
-        }
-        const userRoleExist = db.UserRole.findByPk(permission.roleId);
-        if (!userRoleExist) {
-          throw new Error("Kindly provide valid user role id");
-        }
-
-        data.push({
-          permissionId: permission.id,
-          permittableId: permission.roleId,
-          permittableType: "role",
+      if (revoke === true) {
+        await db.RoleGroupPermission.destroy({
+          where: {
+            [Op.or]: data,
+          },
         });
-      });
 
+        return res.status(200).json({ message: "Permission revoked for user" });
+      }
       await db.RoleGroupPermission.bulkCreate(data);
 
-      res.status(200).json({ message: "Permission granted" });
+      return res.status(200).json({ message: "Permission granted" });
     } catch (e) {
       next(e);
     }

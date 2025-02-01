@@ -24,16 +24,10 @@ router.put(
 );
 
 router.put(
-  "/:id/assign_permission",
+  "/:id/permissions",
   checkRole("HR Executive"),
   checkPermission("can_update_users"),
-  permissionHandler.assignPermission,
-);
-router.put(
-  "/:id/revoke_permission",
-  checkRole("HR Executive"),
-  checkPermission("can_update_users"),
-  permissionHandler.revokePermission,
+  permissionHandler.update,
 );
 
 module.exports = router;

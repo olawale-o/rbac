@@ -7,13 +7,17 @@
     "dev": "PORT=5000 nodemon index.js",
     "db:create": "npx sequelize-cli db:create",
     "db:migrate": "npx sequelize-cli db:migrate",
-    "db:seed:all": "npx sequelize-cli db:seed:all"
+    "db:seed:all": "npx sequelize-cli db:seed:all",
+    "grpc-client": "node ./client.js",
+    "grpc-server": "node ./server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@grpc/grpc-js": "^1.12.6",
+    "@grpc/proto-loader": "^0.7.13",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
     "cookie-parser": "^1.4.7",

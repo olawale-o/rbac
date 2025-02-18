@@ -1,6 +1,7 @@
 const db = require("../../models");
 const { comparePassword } = require("../../utils/bcrypt");
 const { signToken } = require("../../utils/jwt");
+const grpc = require("@grpc/grpc-js");
 
 const ACCESS_TOKEN_EXPIRATION = 60 * 60 * 24;
 
@@ -10,9 +11,10 @@ const generateAccessToken = (data) =>
   generateJWTToken(data, "ACCESS_TOKEN", ACCESS_TOKEN_EXPIRATION);
 
 module.exports = {
-  login: async (req, res, next) => {
+  login: async (call, callback) => {
     try {
-      const { email, password } = req.body;
+      const { email, password } = call.request;
+      const meta = new grpc.Metadata();
 
       const user = await db.User.findOne({
         where: { email },
@@ -55,13 +57,21 @@ module.exports = {
         ],
       });
       if (!user) {
-        return res.status(400).json({ message: "Invalid email or password" });
+        return callback({
+          message: "Invalid email or password",
+          code: grpc.status.INVALID_ARGUMENT,
+          status: "error",
+        });
       }
 
       const isPasswordValid = await comparePassword(password, user.password);
 
       if (!isPasswordValid) {
-        return res.status(400).json({ message: "Invalid email or password" });
+        return callback({
+          message: "Invalid email or password",
+          staus: "error",
+          code: grpc.status.INVALID_ARGUMENT,
+        });
       }
 
       const data = {
@@ -71,17 +81,17 @@ module.exports = {
         roles: user.my_roles,
         groups: user.my_groups,
       };
-
-      res.cookie("user", data);
+      // res.cookie("user", data);
 
       const accessToken = generateAccessToken({ id: user.id });
-      res.cookie("accessToken", accessToken, { httpOnly: true, secure: true });
-
-      return res.status(200).json({
-        data,
-      });
+      // res.cookie("accessToken", accessToken, { httpOnly: true, secure: true });
+      return callback(null, { token: accessToken });
     } catch (e) {
-      next(e);
+      return callback({
+        message: "Internal server error",
+        code: grpc.status.INTERNAL,
+        status: "error",
+      });
     }
   },
 };

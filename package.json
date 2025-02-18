@@ -9,7 +9,7 @@
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:seed:all": "npx sequelize-cli db:seed:all",
     "grpc-client": "node ./client.js",
-    "grpc-server": "node ./server.js"
+    "grpc-server": "nodemon ./server.js"
   },
   "keywords": [],
   "author": "",

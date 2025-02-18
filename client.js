@@ -8,13 +8,15 @@ const client = new authPackage.Auth(
   grpc.credentials.createInsecure(),
 );
 
-client.login(
-  { email: "wale@test.com", password: "password" },
-  (err, response) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(`From server`, JSON.stringify(response));
-    }
-  },
-);
+// client.login(
+//   { email: "wale@test.com", password: "password" },
+//   (err, response) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       console.log(`From server`, JSON.stringify(response));
+//     }
+//   },
+// );
+
+module.exports = client;

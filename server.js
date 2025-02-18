@@ -1,5 +1,6 @@
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
+const { login } = require("./api/auth/handler");
 const packageDefinition = protoLoader.loadSync("./proto/auth.proto", {});
 const authPackage = grpc.loadPackageDefinition(packageDefinition).authPackage;
 
@@ -14,15 +15,5 @@ server.bindAsync(
   grpc.ServerCredentials.createInsecure(),
   () => {
     console.log("Server running at http://localhost:50051");
-    // server.start();
   },
 );
-
-function login(call, callback) {
-  const { email, password } = call.request;
-  const userObject = {
-    user: { email, password },
-  };
-  console.log(userObject);
-  callback(null, { token: "token" });
-}

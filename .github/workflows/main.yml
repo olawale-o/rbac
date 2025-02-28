@@ -5,7 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
       - id: foo
         uses: olawale-o/hello-world-action@v1.1
         with:

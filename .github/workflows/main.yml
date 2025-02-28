@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Hello world action step
-        uses: olawale-o/hello-world-action
+        uses: olawale-o/hello-world-action@1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b
         id: hello
         with:
           who-to-greet: "Mona the Octocat"

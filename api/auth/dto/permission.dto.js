@@ -5,7 +5,7 @@ class PermissionMap {
 
   static toDTO(permission) {
     return {
-      id: permission.id,
+      // id: permission.id,
       type: permission.type,
     };
   }

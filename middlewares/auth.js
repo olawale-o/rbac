@@ -1,6 +1,6 @@
 const { verifyToken } = require("../utils/jwt");
 
-const checkAuth = async (req, res, next) => {
+const isAuthenticated = async (req, res, next) => {
   const { accessToken } = req.cookies;
 
   if (!accessToken) {
@@ -19,4 +19,4 @@ const checkAuth = async (req, res, next) => {
   }
 };
 
-module.exports = { checkAuth };
+module.exports = { isAuthenticated };

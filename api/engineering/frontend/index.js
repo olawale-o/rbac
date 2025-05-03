@@ -1,11 +1,11 @@
 const router = require("express").Router();
-const { checkPermission } = require("../../../middlewares/permission");
+const { isAuthorized } = require("../../../middlewares/permission");
 const { checkRole } = require("../../../middlewares/role");
 
 router.post(
   "/",
   checkRole("Front-End Engineer"),
-  checkPermission("can_create_frontend"),
+  isAuthorized("can_create_frontend"),
   async (req, res, next) => {
     res.status(200).json({ message: "You can create frontend resource" });
   },
@@ -13,7 +13,7 @@ router.post(
 router.put(
   "/",
   checkRole("Front-End Engineer"),
-  checkPermission("can_update_frontend"),
+  isAuthorized("can_update_frontend"),
   async (req, res, next) => {
     res.status(200).json({ message: "You can update frontend resource" });
   },
@@ -21,7 +21,7 @@ router.put(
 router.delete(
   "/",
   checkRole("Front-End Engineer"),
-  checkPermission("can_delete_frontend"),
+  isAuthorized("can_delete_frontend"),
   async (req, res, next) => {
     res.status(200).json({ message: "You can delete frontend resource" });
   },

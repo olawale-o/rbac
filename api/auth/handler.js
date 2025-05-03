@@ -1,5 +1,4 @@
-// const db = require("../../models");
-const userDAO = require("./dao/dao");
+const repository = require("./repositiory/repository");
 const { comparePassword } = require("../../utils/bcrypt");
 const { signToken } = require("../../utils/jwt");
 const UserMap = require("./dto/dto");
@@ -16,7 +15,7 @@ module.exports = {
     try {
       const { email, password } = req.body;
 
-      const user = await userDAO.findByEmail(email);
+      const user = await repository.authenticateByEmail({ email });
       if (!user) {
         return res.status(400).json({ message: "Invalid email or password" });
       }

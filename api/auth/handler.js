@@ -1,6 +1,6 @@
 const repository = require("./repositiory/repository");
-const { comparePassword } = require("../../utils/bcrypt");
-const { signToken } = require("../../utils/jwt");
+const { comparePassword } = require("../../libraries/bcrypt/src");
+const { signToken } = require("../../libraries/jwt/src");
 const UserMap = require("./dto/dto");
 const AppError = require("../../libraries/error/src");
 

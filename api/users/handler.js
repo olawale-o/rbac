@@ -1,6 +1,6 @@
 const AppError = require("../../libraries/error/src");
 const db = require("../../models");
-const { hashPassword } = require("../../utils/bcrypt");
+const { hashPassword } = require("../../libraries/bcrypt/src");
 module.exports = {
   new: async (req, res, next) => {
     try {

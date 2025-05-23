@@ -1,5 +1,5 @@
 const AppError = require("../libraries/error/src");
-const { verifyToken } = require("../utils/jwt");
+const { verifyToken } = require("../libraries/jwt/src");
 
 const isAuthenticated = async (req, res, next) => {
   const { accessToken } = req.cookies;

@@ -9,13 +9,13 @@ module.exports = {
       const data = [];
       let permissionsIdArray = [];
       if (!Array.isArray(permissions) || permissions.length < 1) {
-        throw new Error("Kindly assign permissions to the user");
+        throw new AppError(422, "Kindly assign permissions to the user");
       }
 
-      const isFound = await db.User.findByPk(parseInt(id));
+      const isFound = await db.User.findByPk(Number.parseInt(id));
 
       if (!isFound) {
-        throw new Error("Kindly provide valid user id");
+        throw new AppError(404, "Kindly provide valid user id");
       }
 
       const userRolesIdArray = permissions.map((permission) => {
@@ -26,10 +26,10 @@ module.exports = {
             permittableType: "role",
           });
 
-          return parseInt(p);
+          return Number.parseInt(p);
         });
 
-        return parseInt(permission.roleId);
+        return Number.parseInt(permission.roleId);
       });
 
       const permissionFound = await db.Permission.findAll({
@@ -40,10 +40,10 @@ module.exports = {
       });
 
       if (permissionFound.length !== permissionsIdArray.length) {
-        throw new Error("Kindly provide a valid permission id");
+        throw new AppError(404, "Kindly provide a valid permission id");
       }
       if (userRoleFound.length !== permissions.length) {
-        throw new Error("Kindly provide a valid role id");
+        throw new AppError(404, "Kindly provide a valid role id");
       }
 
       if (revoke === true) {

@@ -2,6 +2,7 @@ const repository = require("./repositiory/repository");
 const { comparePassword } = require("../../utils/bcrypt");
 const { signToken } = require("../../utils/jwt");
 const UserMap = require("./dto/dto");
+const AppError = require("../../libraries/error/src");
 
 const ACCESS_TOKEN_EXPIRATION = 60 * 60 * 24;
 
@@ -17,13 +18,13 @@ module.exports = {
 
       const user = await repository.authenticateByEmail({ email });
       if (!user) {
-        return res.status(400).json({ message: "Invalid email or password" });
+        throw new AppError(400, "Invalid email or password");
       }
 
       const isPasswordValid = await comparePassword(password, user.password);
 
       if (!isPasswordValid) {
-        return res.status(400).json({ message: "Invalid email or password" });
+        throw new AppError(400, "Invalid email or password");
       }
       const cookieData = UserMap.toCookie(user);
       res.cookie("user", cookieData);

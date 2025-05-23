@@ -1,8 +1,9 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const errorHandler = require("../middlewares/error");
+
 const { isAuthorized } = require("../middlewares/permission");
 const { isAuthenticated } = require("../middlewares/auth");
+const handleError = require("../libraries/error/src/handler");
 
 const app = express();
 
@@ -25,6 +26,6 @@ app.use(
   require("../api/sales"),
 );
 app.use("/api/v1/admin", require("../api/admin"));
-app.use(errorHandler);
+app.use(handleError);
 
 module.exports = app;

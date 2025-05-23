@@ -1,16 +1,17 @@
+const AppError = require("../libraries/error/src");
 const { verifyToken } = require("../utils/jwt");
 
 const isAuthenticated = async (req, res, next) => {
   const { accessToken } = req.cookies;
 
   if (!accessToken) {
-    throw new Error("Access token is required");
+    throw new AppError(403, "Access token is required");
   }
 
   try {
     const data = verifyToken(accessToken, "ACCESS_TOKEN");
     if (!data) {
-      throw new Error("Token verification failed 1");
+      throw new AppError(403, "Access token is required");
     }
     req.data = data;
     next();

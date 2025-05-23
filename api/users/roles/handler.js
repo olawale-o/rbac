@@ -1,3 +1,4 @@
+const AppError = require("../../../libraries/error/src");
 const db = require("../../../models");
 const { Op } = require("sequelize");
 module.exports = {
@@ -9,27 +10,27 @@ module.exports = {
       if (!Array.isArray(roles) || roles.length < 1) {
         throw new Error("Kindly provide arrays of roles");
       }
-      const isFound = await db.User.findByPk(parseInt(id));
+      const isFound = await db.User.findByPk(Number.parseInt(id));
 
       if (!isFound) {
-        throw new Error("Kindly provide valid user id");
+        throw new AppError(404, "Kindly provide valid user id");
       }
 
       const rolesIdArray = roles.map((role) => {
-        data.push({ roleId: role.id, userId: parseInt(id, 10) });
-        return parseInt(role.id);
+        data.push({ roleId: role.id, userId: Number.parseInt(id, 10) });
+        return Number.parseInt(role.id);
       });
 
       const rolesFound = await db.Role.findAll({ where: { id: rolesIdArray } });
 
       if (rolesFound.length !== roles.length) {
-        throw new Error("Kindly provide a valid role id");
+        throw new AppError(404, "Kindly provide a valid role id");
       }
 
       if (revoke === true) {
         await db.UserRole.destroy({
           where: {
-            userId: parseInt(id, 10),
+            userId: Number.parseInt(id, 10),
             roleId: {
               [Op.in]: rolesIdArray,
             },

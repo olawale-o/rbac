@@ -9,6 +9,16 @@ const findGroupById = async (id) => {
   }
 };
 
+const findAll = async (query) => {
+  try {
+    const groups = await db.Group.findAll(query);
+    return groups;
+  } catch (error) {
+    throw new Error(`Failed to find all groups: ${error.message}`);
+  }
+};
+
 module.exports = {
   findGroupById,
+  findAll,
 };

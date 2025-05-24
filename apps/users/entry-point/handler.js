@@ -1,5 +1,5 @@
+const { Op } = require("sequelize");
 const AppError = require("../../../libraries/error/src");
-const db = require("../../../models");
 const userRepository = require("../repository/repository");
 const userRoleRepository = require("../repository/user-role.repository");
 const userGroupRepository = require("../repository/user-group.repository");
@@ -31,20 +31,47 @@ module.exports = {
           "Kindly assign atleast a group and role to user",
         );
       }
-
       // end validation
 
-      const newUser = await userRepository.save(user);
-      if (!newUser) {
-        throw new AppError(422, "Bad Request");
+      const rolesToFind = roles.map((role) => role.id);
+      const groupsToFind = groups.map((group) => group.id);
+
+      const roleIds = await roleRepository.findAllRole({
+        where: {
+          id: {
+            [Op.in]: rolesToFind,
+          },
+        },
+      });
+
+      if (!roleIds || roleIds.length !== rolesToFind.length) {
+        throw new AppError(422, "Provide valid role ids");
       }
 
-      const userRoles = await userRoleRepository.bulkSave(
+      const groupIds = await groupRepository.findAllGroup({
+        where: {
+          id: {
+            [Op.in]: groupsToFind,
+          },
+        },
+      });
+
+      if (!groupIds || groupIds.length !== groupsToFind.length) {
+        throw new AppError(422, "Provide valid group ids");
+      }
+
+      // save user with its roles and groups
+      const newUser = await userRepository.save(user);
+      if (!newUser) {
+        throw new AppError(500, "Internal Server Error");
+      }
+
+      await userRoleRepository.bulkSave(
         newUser.id,
         roles.map((role) => role.id),
       );
 
-      const userGroups = await userGroupRepository.bulkSave(
+      await userGroupRepository.bulkSave(
         newUser.id,
         groups.map((group) => group.id),
       );

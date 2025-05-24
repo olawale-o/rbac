@@ -9,6 +9,16 @@ const findGroupById = async (id) => {
   }
 };
 
+const findAllGroup = async (query) => {
+  try {
+    const groups = await groupDAO.findAll(query);
+    return groups;
+  } catch (error) {
+    throw new Error(`Failed to find role all ${error.message}`);
+  }
+};
+
 module.exports = {
   findGroupById,
+  findAllGroup,
 };

@@ -9,6 +9,17 @@ const findRoleById = async (id) => {
   }
 };
 
+const findAll = async (query) => {
+  try {
+    const roles = await db.Role.findAll(query);
+    return roles;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Failed to find all roles: ${error.message}`);
+  }
+};
+
 module.exports = {
   findRoleById,
+  findAll,
 };

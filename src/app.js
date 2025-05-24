@@ -11,21 +11,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/api/v1/auth", require("../api/auth"));
+app.use("/api/v1/auth", require("../apps/auth/entry-point/api"));
 
 app.use(isAuthenticated);
-app.use("/api/v1/users", require("../api/users"));
+app.use("/api/v1/users", require("../apps/users/entry-point/api"));
 app.use(
   "/api/v1/engineering",
   isAuthorized("can_view_engineering"),
-  require("../api/engineering"),
+  require("../apps/engineering/entry-point/api"),
 );
 app.use(
   "/api/v1/sales",
   isAuthorized("can_view_sales"),
-  require("../api/sales"),
+  require("../apps/sales/entry-point/api"),
 );
-app.use("/api/v1/admin", require("../api/admin"));
+app.use("/api/v1/admin", require("../apps/admin/entry-point/api"));
 app.use(handleError);
 
 module.exports = app;

@@ -5,7 +5,7 @@ save = async (user) => {
     const response = await userDAO.save(user);
     return response;
   } catch (error) {
-    throw new Error("Failed to save user");
+    throw new Error(error.message);
   }
 };
 

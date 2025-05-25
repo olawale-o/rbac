@@ -5,7 +5,10 @@ const save = async (user) => {
     const response = await db.User.create(user, { w: 1 }, { returning: true });
     return response;
   } catch (error) {
-    throw new Error(error.message);
+    if (error.name === "SequelizeUniqueConstraintError") {
+      throw new Error("email already exists");
+    }
+    throw new Error(error);
   }
 };
 

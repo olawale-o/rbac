@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const roleDAO = require("./dao/dao");
 
 const findRoleById = async (id) => {

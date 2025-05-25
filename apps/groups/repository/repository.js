@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const groupDAO = require("./dao/dao");
 
 const findGroupById = async (id) => {
@@ -13,7 +14,7 @@ const findAllGroupByIds = async (groupIds) => {
   const query = {
     where: {
       id: {
-        [Op.in]: groupsToFind,
+        [Op.in]: groupIds,
       },
     },
   };

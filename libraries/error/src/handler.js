@@ -1,4 +1,4 @@
-const handleError = async (err, req, res, next) => {
+const handleError = async (err, _req, res, _next) => {
   console.log("error handler");
   // if (config.get("env") !== "test") {
   //   console.error(err.message);

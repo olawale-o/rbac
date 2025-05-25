@@ -9,16 +9,23 @@ const findRoleById = async (id) => {
   }
 };
 
-const findAllRole = async (query) => {
+const findAllRoleByIds = async (roleIds) => {
+  const query = {
+    where: {
+      id: {
+        [Op.in]: roleIds,
+      },
+    },
+  };
   try {
     const roles = await roleDAO.findAll(query);
     return roles;
   } catch (error) {
-    throw new Error(`Failed to find role all ${error.message}`);
+    throw new Error(`Failed to find all roles ${error.message}`);
   }
 };
 
 module.exports = {
   findRoleById,
-  findAllRole,
+  findAllRoleByIds,
 };

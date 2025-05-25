@@ -36,25 +36,13 @@ module.exports = {
       const rolesToFind = roles.map((role) => role.id);
       const groupsToFind = groups.map((group) => group.id);
 
-      const roleIds = await roleRepository.findAllRole({
-        where: {
-          id: {
-            [Op.in]: rolesToFind,
-          },
-        },
-      });
+      const roleIds = await roleRepository.findAllRoleByIds(rolesToFind);
 
       if (!roleIds || roleIds.length !== rolesToFind.length) {
         throw new AppError(422, "Provide valid role ids");
       }
 
-      const groupIds = await groupRepository.findAllGroup({
-        where: {
-          id: {
-            [Op.in]: groupsToFind,
-          },
-        },
-      });
+      const groupIds = await groupRepository.findAllGroup(groupsToFind);
 
       if (!groupIds || groupIds.length !== groupsToFind.length) {
         throw new AppError(422, "Provide valid group ids");

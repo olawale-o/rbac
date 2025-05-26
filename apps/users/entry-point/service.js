@@ -1,4 +1,4 @@
-const userRepository = require("../repository/repository");
+const UserRepository = require("../repository/repository");
 const userRoleRepository = require("../repository/user-role.repository");
 const userGroupRepository = require("../repository/user-group.repository");
 const roleRepository = require("../../roles/repository/repository");
@@ -6,6 +6,7 @@ const groupRepository = require("../../groups/repository/repository");
 const AppError = require("../../../libraries/error/src");
 
 const createNewUser = async (roles, groups, user) => {
+  const userRepository = new UserRepository();
   try {
     const roleIds = await roleRepository.findAllRoleByIds(roles);
 

@@ -1,4 +1,4 @@
-const repository = require("../repositiory/repository");
+const { AuthRepository } = require("../repositiory/repository");
 const { comparePassword } = require("../../../libraries/bcrypt/src");
 const { signToken } = require("../../../libraries/jwt/src");
 const UserMap = require("../dto/dto");
@@ -13,10 +13,11 @@ const generateAccessToken = (data) =>
 
 module.exports = {
   login: async (req, res, next) => {
+    const authRepository = new AuthRepository();
     try {
       const { email, password } = req.body;
 
-      const user = await repository.authenticateByEmail({ email });
+      const user = await authRepository.authenticateByEmail({ email });
       if (!user) {
         throw new AppError(400, "Invalid email or password");
       }

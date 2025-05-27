@@ -1,4 +1,5 @@
 const authDAO = require("./dao/dao");
+const { Repository } = require("../../../core/repository.core");
 
 class AuthRepository extends Repository {
   async authenticateByEmail({ email }) {

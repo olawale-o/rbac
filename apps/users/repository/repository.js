@@ -1,4 +1,4 @@
-const Repository = require("../../../core/repository/repository.core");
+const { Repository } = require("../../../core/repository/repository.core");
 const userDAO = require("./dao/dao");
 
 class UserRepository extends Repository {

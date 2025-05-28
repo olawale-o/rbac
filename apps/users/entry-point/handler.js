@@ -16,7 +16,7 @@ module.exports = {
       const groups = body.groups;
 
       // move this to validation
-      if (!Array.isArray(roles) && !Array.isArray(groups)) {
+      if (!Array.isArray(roles) || !Array.isArray(groups)) {
         throw new AppError(422, "Kindly provide arrays of roles or groups");
       }
 

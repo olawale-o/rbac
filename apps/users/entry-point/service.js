@@ -36,25 +36,18 @@ const createNewUser = async ({ roles, groups, user }) => {
       ),
     });
 
-    await userRepository.transaction(async (transaction) => {
-      console.log("Transaction starting");
-      const user = await db.User.create(
-        {
-          email: u.props.email,
-          fullName: u.props.fullName,
-          password: u.props.password,
-        },
-        { transaction },
-      );
-      await db.UserRole.bulkCreate(
-        u.roles().map((role) => ({ userId: user.id, roleId: role.id() })),
-        { transaction },
-      );
-      await db.UserGroup.bulkCreate(
-        u.groups().map((group) => ({ userId: user.id, groupId: group.id() })),
-        { transaction },
-      );
-    });
+    await userRepository.transaction(
+      async (transaction) =>
+        await userRepository.save(transaction, {
+          user: {
+            email: u.props.email,
+            fullName: u.props.fullName,
+            password: u.props.password,
+          },
+          roles: u.roles(),
+          groups: u.groups(),
+        }),
+    );
   } catch (error) {
     throw new AppError(500, error.message);
   }

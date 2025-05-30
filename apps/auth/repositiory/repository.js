@@ -1,7 +1,12 @@
+const db = require("../../../models");
 const authDAO = require("./dao/dao");
-const { Repository } = require("../../../core/repository.core");
+const { Repository } = require("../../../core/repository/repository.core");
 
 class AuthRepository extends Repository {
+  constructor() {
+    super(db.sequelize, db.User);
+  }
+
   async authenticateByEmail({ email }) {
     try {
       const user = await authDAO.findByEmail(email);

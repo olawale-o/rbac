@@ -2,7 +2,11 @@ const { AuthRepository } = require("../repositiory/repository");
 const { comparePassword } = require("../../../libraries/bcrypt/src");
 const { signToken } = require("../../../libraries/jwt/src");
 const UserMap = require("../dto/dto");
-const AppError = require("../../../libraries/error/src");
+const {
+  InvalidEmailCredentialsException,
+  AuthException,
+  InvalidPasswordException,
+} = require("../domain/auth.error");
 
 const ACCESS_TOKEN_EXPIRATION = 60 * 60 * 24;
 
@@ -17,15 +21,12 @@ module.exports = {
     try {
       const { email, password } = req.body;
 
-      const user = await authRepository.authenticateByEmail({ email });
-      if (!user) {
-        throw new AppError(400, "Invalid email or password");
-      }
+      const user = await authRepository.findByEmail({ email });
 
       const isPasswordValid = await comparePassword(password, user.password);
 
       if (!isPasswordValid) {
-        throw new AppError(400, "Invalid email or password");
+        throw new InvalidPasswordException("Invalid email or password");
       }
       const cookieData = UserMap.toCookie(user);
       res.cookie("user", cookieData);
@@ -37,7 +38,12 @@ module.exports = {
         data: UserMap.toDTO(user),
       });
     } catch (e) {
-      console.error(e);
+      if (
+        e instanceof InvalidEmailCredentialsException ||
+        e instanceof InvalidPasswordException
+      ) {
+        next(new AuthException(e));
+      }
       next(e);
     }
   },

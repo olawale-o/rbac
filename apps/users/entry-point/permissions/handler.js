@@ -1,6 +1,11 @@
 const db = require("../../../../models");
 const { Op } = require("sequelize");
 
+const {
+  NotFoundException,
+  UnprocessedEntityException,
+} = require("../../../../libraries/exception/exceptions");
+
 module.exports = {
   update: async (req, res, next) => {
     try {
@@ -9,13 +14,15 @@ module.exports = {
       const data = [];
       let permissionsIdArray = [];
       if (!Array.isArray(permissions) || permissions.length < 1) {
-        throw new AppError(422, "Kindly assign permissions to the user");
+        throw new UnprocessedEntityException(
+          "Kindly assign permissions to the user",
+        );
       }
 
       const isFound = await db.User.findByPk(Number.parseInt(id));
 
       if (!isFound) {
-        throw new AppError(404, "Kindly provide valid user id");
+        throw new NotFoundException("Kindly provide valid user id");
       }
 
       const userRolesIdArray = permissions.map((permission) => {
@@ -40,10 +47,10 @@ module.exports = {
       });
 
       if (permissionFound.length !== permissionsIdArray.length) {
-        throw new AppError(404, "Kindly provide a valid permission id");
+        throw new NotFoundException("Kindly provide a valid permission id");
       }
       if (userRoleFound.length !== permissions.length) {
-        throw new AppError(404, "Kindly provide a valid role id");
+        throw new NotFoundException("Kindly provide a valid role id");
       }
 
       if (revoke === true) {

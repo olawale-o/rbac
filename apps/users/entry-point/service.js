@@ -1,13 +1,13 @@
 const UserRepository = require("../repository/repository");
-const userRoleRepository = require("../repository/user-role.repository");
-const userGroupRepository = require("../repository/user-group.repository");
 const roleRepository = require("../../roles/repository/repository");
 const groupRepository = require("../../groups/repository/repository");
-const AppError = require("../../../libraries/error/src");
 const { User } = require("../domain/user.entity");
 const { Role } = require("../domain/value-objects/role.value-object");
 const { Group } = require("../domain/value-objects/group.value-object");
-const db = require("../../../models");
+const {
+  UnprocessedEntityException,
+  InternalServerErrorException,
+} = require("../../../libraries/exception/exceptions");
 
 const createNewUser = async ({ roles, groups, user }) => {
   const userRepository = new UserRepository();
@@ -15,13 +15,13 @@ const createNewUser = async ({ roles, groups, user }) => {
     const roleIds = await roleRepository.findAllRoleByIds(roles);
 
     if (!roleIds || roleIds.length !== roles.length) {
-      throw new AppError(422, "Provide valid role ids");
+      throw new UnprocessedEntityException("Provide valid role ids");
     }
 
     const groupIds = await groupRepository.findAllGroupByIds(groups);
 
     if (!groupIds || groupIds.length !== groups.length) {
-      throw new AppError(422, "Provide valid group ids");
+      throw new UnprocessedEntityException("Provide valid group ids");
     }
 
     const u = User.create({
@@ -49,7 +49,7 @@ const createNewUser = async ({ roles, groups, user }) => {
         }),
     );
   } catch (error) {
-    throw new AppError(500, error.message);
+    throw new InternalServerErrorException(error.message);
   }
 };
 

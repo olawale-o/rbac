@@ -1,5 +1,5 @@
-import { Mapper } from "core/domain/mapper.core";
-import User from "../domain/user.entity";
+const { Mapper } = require("../../../core/domain/mapper.core");
+const { User } = require("../domain/user.entity");
 class UserMapper extends Mapper {
   toPersistence(entity) {
     return {

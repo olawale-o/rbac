@@ -1,6 +1,8 @@
-const AppError = require("../../../../libraries/error/src");
 const db = require("../../../../models");
 const { Op } = require("sequelize");
+const {
+  NotFoundException,
+} = require("../../../../libraries/exception/exceptions");
 module.exports = {
   update: async (req, res, next) => {
     try {
@@ -13,7 +15,7 @@ module.exports = {
       const isFound = await db.User.findByPk(Number.parseInt(id));
 
       if (!isFound) {
-        throw new AppError(404, "Kindly provide valid user id");
+        throw new NotFoundException("Kindly provide valid user id");
       }
 
       const rolesIdArray = roles.map((role) => {
@@ -24,7 +26,7 @@ module.exports = {
       const rolesFound = await db.Role.findAll({ where: { id: rolesIdArray } });
 
       if (rolesFound.length !== roles.length) {
-        throw new AppError(404, "Kindly provide a valid role id");
+        throw new NotFoundException("Kindly provide a valid role id");
       }
 
       if (revoke === true) {

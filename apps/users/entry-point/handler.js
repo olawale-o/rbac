@@ -1,4 +1,6 @@
-const AppError = require("../../../libraries/error/src");
+const {
+  UnprocessedEntityException,
+} = require("../../../libraries/exception/exceptions");
 
 const userService = require("./service");
 const { hashPassword } = require("../../../libraries/bcrypt/src");
@@ -15,12 +17,13 @@ module.exports = {
 
       // move this to validation
       if (!Array.isArray(body.roles) || !Array.isArray(body.groups)) {
-        throw new AppError(422, "Kindly provide arrays of roles or groups");
+        throw new UnprocessedEntityException(
+          "Kindly provide arrays of roles or groups",
+        );
       }
 
       if (body.roles.length < 1 || body.groups.length < 1) {
-        throw new AppError(
-          422,
+        throw new UnprocessedEntityException(
           "Kindly assign atleast a group and role to user",
         );
       }

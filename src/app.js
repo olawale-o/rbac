@@ -3,7 +3,9 @@ const cookieParser = require("cookie-parser");
 
 const { isAuthorized } = require("../middlewares/permission");
 const { isAuthenticated } = require("../middlewares/auth");
-const handleError = require("../libraries/error/src/handler");
+const {
+  ExceptionHandler,
+} = require("../libraries/exception/exception.handler");
 
 const app = express();
 
@@ -26,6 +28,6 @@ app.use(
   require("../apps/sales/entry-point/api"),
 );
 app.use("/api/v1/admin", require("../apps/admin/entry-point/api"));
-app.use(handleError);
+app.use(ExceptionHandler);
 
 module.exports = app;

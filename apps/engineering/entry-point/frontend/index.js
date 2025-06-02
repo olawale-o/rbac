@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { isAuthorized } = require("../../../../middlewares/permission");
+const { isAuthorized } = require("../../../../middlewares/is-authorized");
 const { checkRole } = require("../../../../middlewares/role");
 
 router.post(

@@ -18,6 +18,7 @@ const generateAccessToken = (data) =>
 module.exports = {
   login: async (req, res, next) => {
     const authRepository = new AuthRepository();
+    const userMapper = new UserMap();
     try {
       const { email, password } = req.body;
 
@@ -28,15 +29,17 @@ module.exports = {
       if (!isPasswordValid) {
         throw new InvalidPasswordException("Invalid email or password");
       }
-      const cookieData = UserMap.toCookie(user);
-      res.cookie("user", cookieData);
+      // const cookieData = UserMap.toCookie(user);
+      // res.cookie("user", cookieData);
+      //
 
-      const accessToken = generateAccessToken({ id: user.id });
+      const jwtData = userMapper.toJWT(UserMap.toDomain(user));
+      console.log(jwtData);
+
+      const accessToken = generateAccessToken(jwtData);
       res.cookie("accessToken", accessToken, { httpOnly: true, secure: true });
 
-      return res.status(200).json({
-        data: UserMap.toDTO(user),
-      });
+      return res.status(200).json({ message: "Login successful" });
     } catch (e) {
       if (
         e instanceof InvalidEmailCredentialsException ||

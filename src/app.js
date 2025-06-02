@@ -1,8 +1,8 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 
-const { isAuthorized } = require("../middlewares/permission");
-const { isAuthenticated } = require("../middlewares/auth");
+const { isAuthorized } = require("../middlewares/is-authorized");
+const { isAuthenticated } = require("../middlewares/is-authenticated");
 const {
   ExceptionHandler,
 } = require("../libraries/exception/exception.handler");

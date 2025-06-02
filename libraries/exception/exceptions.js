@@ -1,11 +1,9 @@
 const { ExceptionCore } = require("./exception.core");
 const {
   NOT_FOUND,
-  ARGUMENT_INVALID,
-  ARGUMENT_OUT_OF_RANGE,
-  ARGUMENT_NOT_PROVIDED,
   INTERNAL_SERVER_ERROR,
   CONFLICT,
+  UNAUTHORIZED,
 } = require("./exception.code");
 
 class NotFoundException extends ExceptionCore {
@@ -22,8 +20,9 @@ class BadRequestException extends ExceptionCore {
 }
 
 class UnauthorizedException extends ExceptionCore {
+  code = UNAUTHORIZED;
   constructor(message, isOperational = true, stack = "") {
-    super(401, message, isOperational, stack);
+    super(403, message, isOperational, stack);
   }
 }
 

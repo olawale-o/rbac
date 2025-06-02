@@ -29,9 +29,6 @@ module.exports = {
       if (!isPasswordValid) {
         throw new InvalidPasswordException("Invalid email or password");
       }
-      // const cookieData = UserMap.toCookie(user);
-      // res.cookie("user", cookieData);
-      //
 
       const jwtData = userMapper.toJWT(UserMap.toDomain(user));
       console.log(jwtData);

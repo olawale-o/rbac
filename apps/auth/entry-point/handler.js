@@ -1,7 +1,7 @@
 const { AuthRepository } = require("../repositiory/repository");
 const { comparePassword } = require("../../../libraries/bcrypt/src");
 const { signToken } = require("../../../libraries/jwt/src");
-const UserMap = require("../dto/dto");
+const { AuthMapper } = require("./auth.mapper");
 const {
   InvalidEmailCredentialsException,
   AuthException,
@@ -18,7 +18,7 @@ const generateAccessToken = (data) =>
 module.exports = {
   login: async (req, res, next) => {
     const authRepository = new AuthRepository();
-    const userMapper = new UserMap();
+    const authMapper = new AuthMapper();
     try {
       const { email, password } = req.body;
 
@@ -30,13 +30,18 @@ module.exports = {
         throw new InvalidPasswordException("Invalid email or password");
       }
 
-      const jwtData = userMapper.toJWT(UserMap.toDomain(user));
+      const jwtData = authMapper.toJWT(user);
       console.log(jwtData);
 
       const accessToken = generateAccessToken(jwtData);
       res.cookie("accessToken", accessToken, { httpOnly: true, secure: true });
 
-      return res.status(200).json({ message: "Login successful" });
+      return res
+        .status(200)
+        .json({
+          message: "Login successful",
+          ...authMapper.toResponse({ accessToken, refreshToken: accessToken }),
+        });
     } catch (e) {
       if (
         e instanceof InvalidEmailCredentialsException ||

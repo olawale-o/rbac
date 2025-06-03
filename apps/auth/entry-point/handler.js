@@ -31,17 +31,14 @@ module.exports = {
       }
 
       const jwtData = authMapper.toJWT(user);
-      console.log(jwtData);
 
       const accessToken = generateAccessToken(jwtData);
       res.cookie("accessToken", accessToken, { httpOnly: true, secure: true });
 
-      return res
-        .status(200)
-        .json({
-          message: "Login successful",
-          ...authMapper.toResponse({ accessToken, refreshToken: accessToken }),
-        });
+      return res.status(200).json({
+        message: "Login successful",
+        ...authMapper.toResponse({ accessToken, refreshToken: accessToken }),
+      });
     } catch (e) {
       if (
         e instanceof InvalidEmailCredentialsException ||

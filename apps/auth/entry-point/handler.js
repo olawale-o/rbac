@@ -1,19 +1,12 @@
 const { AuthRepository } = require("../repositiory/repository");
 const { comparePassword } = require("../../../libraries/bcrypt/src");
-const { signToken } = require("../../../libraries/jwt/src");
+import { generateAccessToken } from "../../../utils/jwt";
 const { AuthMapper } = require("./auth.mapper");
 const {
   InvalidEmailCredentialsException,
   AuthException,
   InvalidPasswordException,
 } = require("../domain/auth.error");
-
-const ACCESS_TOKEN_EXPIRATION = 60 * 60 * 24;
-
-const generateJWTToken = (data, key, expires) => signToken(data, key, expires);
-
-const generateAccessToken = (data) =>
-  generateJWTToken(data, "ACCESS_TOKEN", ACCESS_TOKEN_EXPIRATION);
 
 module.exports = {
   login: async (req, res, next) => {

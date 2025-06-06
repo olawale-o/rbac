@@ -1,3 +1,4 @@
+const { signToken } = require("../../libraries/jwt/src");
 const ACCESS_TOKEN_EXPIRATION = 60 * 60 * 24;
 
 const generateJWTToken = (data, key, expires) => signToken(data, key, expires);

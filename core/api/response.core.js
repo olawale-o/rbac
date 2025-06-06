@@ -1,10 +1,17 @@
-class IdRepresentation {
+class IdResponse {
   constructor(id) {
     this.id = id;
   }
 }
 
-class ResponseCore extends IdRepresentation {
+class MessageResponse extends IdResponse {
+  constructor({ id, message }) {
+    super(id);
+    this.message = message;
+  }
+}
+
+class ResponseCore extends IdResponse {
   constructor(props) {
     super(props.id);
     this.createdAt = new Date(props.createdAt).toISOString();
@@ -12,4 +19,4 @@ class ResponseCore extends IdRepresentation {
   }
 }
 
-module.exports = { ResponseCore };
+module.exports = { ResponseCore, IdResponse, MessageResponse };

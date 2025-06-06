@@ -7,7 +7,9 @@ const { Group } = require("../domain/value-objects/group.value-object");
 const {
   UnprocessedEntityException,
   InternalServerErrorException,
+  NotFoundException,
 } = require("../../../libraries/exception/exceptions");
+const { UserMapper } = require("./user.mapper");
 
 const createNewUser = async ({ roles, groups, user }) => {
   const userRepository = new UserRepository();
@@ -53,6 +55,22 @@ const createNewUser = async ({ roles, groups, user }) => {
   }
 };
 
+const findUser = async (id) => {
+  const userRepository = new UserRepository();
+  // const userMapper = new UserMapper();
+  try {
+    const user = await userRepository.findUserById(id);
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    return user;
+  } catch (error) {
+    throw new InternalServerErrorException(error.message);
+  }
+};
+
 module.exports = {
   createNewUser,
+  findUser,
 };

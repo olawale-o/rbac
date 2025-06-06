@@ -14,13 +14,14 @@ class UserMapper extends Mapper {
 
   toDomain(record) {
     const entity = new User({
-      id,
+      id: record.id || null,
       createdAt: new Date(record.createdAt),
       updatedAt: new Date(record.updatedAt),
       props: {
         email: record.email,
         fullName: record.fullName,
-        password: record.password,
+        roles: record.roles.map((role) => role.name),
+        groups: record.groups.map((group) => group.name),
       },
     });
 

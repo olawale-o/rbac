@@ -8,6 +8,8 @@ router.get("/", async (req, res) => {
   return res.status(200).json({ message: "User resource" });
 });
 
+router.get("/:userId", handler.show);
+
 router.post("/", isAuthorized("can_create_users"), handler.new);
 
 router.put(

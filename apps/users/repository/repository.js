@@ -18,6 +18,53 @@ class UserRepository extends Repository {
     );
     return user;
   }
+
+  async findUserById(id) {
+    const user = await db.User.findOne({
+      where: { id },
+      include: [
+        {
+          model: db.Role,
+          as: "roles",
+          attributes: ["id", "name"],
+          through: { attributes: [] },
+          include: [
+            {
+              model: db.UserRole,
+              as: "user_role_permission",
+              attributes: ["id"],
+
+              include: [
+                {
+                  model: db.Permission,
+                  attributes: ["id", "type"],
+                  through: { attributes: [] },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: db.Group,
+          as: "groups",
+          attributes: ["id", "name"],
+          through: { attributes: [] },
+          include: [
+            {
+              as: "user_group_permission",
+              model: db.Permission,
+              attributes: ["id", "type"],
+              through: { attributes: [] },
+            },
+          ],
+        },
+      ],
+    });
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    return user;
+  }
 }
 
 module.exports = UserRepository;

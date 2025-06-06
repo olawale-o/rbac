@@ -1,9 +1,9 @@
 const { Entity } = require("../../../core/domain/entity.core");
 
 class User extends Entity {
-  _id;
   constructor({ id, props }) {
     super({ id, props });
+    this._id = id || null;
   }
 
   static create(userProps) {

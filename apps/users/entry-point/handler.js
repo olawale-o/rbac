@@ -4,6 +4,7 @@ const {
 
 const userService = require("./service");
 const { hashPassword } = require("../../../libraries/bcrypt/src");
+const { ResponseCore } = require("../../../core/api/response.core");
 
 module.exports = {
   new: async (req, res, next) => {
@@ -35,6 +36,22 @@ module.exports = {
       await userService.createNewUser({ roles, groups, user });
 
       return res.status(200).json({ message: "User created" });
+    } catch (e) {
+      next(e);
+    }
+  },
+  show: async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+      const user = await userService.findUser(userId);
+      const data = {
+        ...new ResponseCore(user),
+        fullName: user.fullName,
+        email: user.email,
+        roles: user.roles.map((role) => role.name),
+        groups: user.groups.map((group) => group.name),
+      };
+      return res.status(200).json(data);
     } catch (e) {
       next(e);
     }

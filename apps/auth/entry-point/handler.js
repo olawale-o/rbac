@@ -1,6 +1,6 @@
 const { AuthRepository } = require("../repositiory/repository");
 const { comparePassword } = require("../../../libraries/bcrypt/src");
-import { generateAccessToken } from "../../../utils/jwt";
+const { generateAccessToken } = require("../../../utils/jwt");
 const { AuthMapper } = require("./auth.mapper");
 const {
   InvalidEmailCredentialsException,

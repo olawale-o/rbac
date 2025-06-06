@@ -4,7 +4,10 @@ const {
 
 const userService = require("./service");
 const { hashPassword } = require("../../../libraries/bcrypt/src");
-const { ResponseCore } = require("../../../core/api/response.core");
+const {
+  ResponseCore,
+  MessageResponse,
+} = require("../../../core/api/response.core");
 
 module.exports = {
   new: async (req, res, next) => {
@@ -35,7 +38,12 @@ module.exports = {
 
       await userService.createNewUser({ roles, groups, user });
 
-      return res.status(200).json({ message: "User created" });
+      return res.status(200).json({
+        ...MessageResponse({
+          message: "User created successfully",
+          id: user.id,
+        }),
+      });
     } catch (e) {
       next(e);
     }

@@ -9,7 +9,6 @@ const {
   InternalServerErrorException,
   NotFoundException,
 } = require("../../../libraries/exception/exceptions");
-const { UserMapper } = require("./user.mapper");
 
 const createNewUser = async ({ roles, groups, user }) => {
   const userRepository = new UserRepository();
@@ -57,9 +56,8 @@ const createNewUser = async ({ roles, groups, user }) => {
 
 const findUser = async (id) => {
   const userRepository = new UserRepository();
-  // const userMapper = new UserMapper();
   try {
-    const user = await userRepository.findUserById(id);
+    const user = await userRepository.findUserByIdWithFullDetails(id);
     if (!user) {
       throw new NotFoundException("User not found");
     }

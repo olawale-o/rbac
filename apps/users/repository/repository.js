@@ -19,7 +19,7 @@ class UserRepository extends Repository {
     return user;
   }
 
-  async findUserById(id) {
+  async findUserByIdWithFullDetails(id) {
     const user = await db.User.findOne({
       where: { id },
       include: [
@@ -60,6 +60,14 @@ class UserRepository extends Repository {
         },
       ],
     });
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    return user;
+  }
+
+  async findUserById(id) {
+    const user = await db.User.findByPk(id);
     if (!user) {
       throw new NotFoundException("User not found");
     }

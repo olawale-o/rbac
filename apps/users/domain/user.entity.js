@@ -1,4 +1,7 @@
 const { Entity } = require("../../../core/domain/entity.core");
+const {
+  NotFoundException,
+} = require("../../../libraries/exception/exceptions");
 
 class User extends Entity {
   constructor({ id, props }) {
@@ -21,17 +24,29 @@ class User extends Entity {
   }
 
   assignRoles(newRoles) {
-    if (!Array.isArray(newRoles)) {
+    if (!Array.isArray(newRoles) && newRoles.length > 0) {
       throw new Error("Roles must be an array");
-    }
-
-    if (newRoles.length > 2) {
-      throw new Error("User can have at most two roles");
     }
 
     const roles = [...this.props.roles, ...newRoles];
 
     this.props.roles = roles;
+  }
+
+  revokeRoles(roles) {
+    if (!Array.isArray(roles) && roles.length > 0) {
+      throw new Error("Roles must be an array");
+    }
+
+    const rolesFound = this.props.roles.filter((role) => roles.includes(role));
+
+    if (rolesFound.length !== roles.length) {
+      throw new NotFoundException("Kindly provide a valid role id(s)");
+    }
+
+    const rolesLeft = this.props.roles.filter((role) => !roles.includes(role));
+
+    this.props.roles = rolesLeft;
   }
 
   assignGroups(newGroups) {

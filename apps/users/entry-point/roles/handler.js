@@ -47,10 +47,9 @@ module.exports = {
         throw new NotFoundException("Kindly provide a valid role id(s)");
       }
 
-      user.assignRoles(rolesFound.map((role) => role.name));
-
       if (revoke === true) {
-        user.revokedRoles(rolesFound);
+        user.revokeRoles(rolesFound.map((role) => role.name));
+
         await db.UserRole.destroy({
           where: {
             userId: Number.parseInt(id, 10),
@@ -61,6 +60,9 @@ module.exports = {
         });
         return res.status(200).json({ messsage: "Role revoked" });
       }
+
+      user.assignRoles(rolesFound.map((role) => role.name));
+
       await db.UserRole.bulkCreate(
         rolesFound.map((role) => ({
           userId: Number.parseInt(id, 10),

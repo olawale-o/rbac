@@ -20,6 +20,33 @@ class User extends Entity {
     return this.props.groups;
   }
 
+  assignRoles(newRoles) {
+    if (!Array.isArray(newRoles)) {
+      throw new Error("Roles must be an array");
+    }
+
+    if (newRoles.length > 2) {
+      throw new Error("User can have at most two roles");
+    }
+
+    const roles = [...this.props.roles, ...newRoles];
+
+    this.props.roles = roles;
+  }
+
+  assignGroups(newGroups) {
+    if (!Array.isArray(newGroups)) {
+      throw new Error("Groups must be an array");
+    }
+
+    if (newGroups.length > 2) {
+      throw new Error("User can have at most two groups");
+    }
+
+    const groups = [...this.props.roles, ...newGroups];
+    this.props.groups = groups;
+  }
+
   validate() {
     if (this.props.roles.length === 0) {
       throw new Error("User must have at least one role");

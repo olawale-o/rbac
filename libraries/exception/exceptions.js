@@ -4,6 +4,7 @@ const {
   INTERNAL_SERVER_ERROR,
   CONFLICT,
   UNAUTHORIZED,
+  FORBIDDEN,
 } = require("./exception.code");
 
 class NotFoundException extends ExceptionCore {

@@ -1,76 +1,18 @@
-const db = require("../../../../models");
-const { Op } = require("sequelize");
-const UserRepository = require("../../repository/repository");
-const { User } = require("../../domain/user.entity");
-const {
-  NotFoundException,
-} = require("../../../../libraries/exception/exceptions");
+const UserRoleService = require("../../../user_role/service");
+
 module.exports = {
   update: async (req, res, next) => {
-    const userRepo = new UserRepository();
-
     try {
       const id = req.params.id;
-      const { roles, revoke } = req.body;
-      if (!Array.isArray(roles) || roles.length < 1) {
+      if (!Array.isArray(req.body.roles) || req.body.roles.length < 1) {
         throw new Error("Kindly provide arrays of roles");
       }
-      const isFound = await userRepo.findUserByIdWithFullDetails(
-        Number.parseInt(id),
-      );
 
-      if (!isFound) {
-        throw new NotFoundException("Kindly provide valid user id");
-      }
-
-      const user = new User({
-        id: isFound.id,
-        props: {
-          fullName: isFound.fullName,
-          email: isFound.email,
-          roles: isFound.roles.map((role) => role.name),
-          groups: isFound.groups.map((group) => group.name),
-        },
+      const message = await UserRoleService.updateUserRole({
+        userId: id,
+        body: req.body,
       });
-
-      const rolesIdArray = roles.map((role) => Number.parseInt(role.id));
-
-      const rolesFound = await db.Role.findAll({
-        where: {
-          id: {
-            [Op.in]: rolesIdArray,
-          },
-        },
-      });
-
-      if (rolesFound.length !== roles.length) {
-        throw new NotFoundException("Kindly provide a valid role id(s)");
-      }
-
-      if (revoke === true) {
-        user.revokeRoles(rolesFound.map((role) => role.name));
-
-        await db.UserRole.destroy({
-          where: {
-            userId: Number.parseInt(id, 10),
-            roleId: {
-              [Op.in]: rolesIdArray,
-            },
-          },
-        });
-        return res.status(200).json({ messsage: "Role revoked" });
-      }
-
-      user.assignRoles(rolesFound.map((role) => role.name));
-
-      await db.UserRole.bulkCreate(
-        rolesFound.map((role) => ({
-          userId: Number.parseInt(id, 10),
-          roleId: role.id,
-        })),
-      );
-
-      return res.status(200).json({ messsage: "Role assigned" });
+      return res.status(200).json({ message });
     } catch (e) {
       next(e);
     }

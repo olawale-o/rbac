@@ -7,10 +7,6 @@ class GroupMap {
     return {
       id: group.id,
       name: group.name,
-      // userGroupPermissionId: group.user_group_permission.id,
-      // permissions: group.user_group_permission.map((permission) =>
-      //   PermissionMap.toDTO(permission),
-      // ),
     };
   }
 }
